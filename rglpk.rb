@@ -6,6 +6,17 @@ module Rglpk
     self.const_set(c, v) if v.kind_of? Numeric
   end
   TypeConstants = [GLP_FR, GLP_LO, GLP_UP, GLP_DB, GLP_FX]
+# The parameters type, lb, and ub specify the type, lower bound, and upper bound, respectively, as follows:
+#           Type       Bounds          Comment
+#           GLP_FR   - < x < +         Free (unbounded) variable
+#           GLP_LO     lb  x < +       Variable with lower bound
+#           GLP_UP   - < x  ub         Variable with upper bound
+#           GLP_DB     lb  x  ub       Double-bounded variable
+#           GLP_FX     lb = x = ub     Fixed variable
+# where x is the variable associated with a column, lb and ub are the last two parameters to call glpk.
+# If the column has no lower bound, the parameter lb is ignored. 
+# If the column has no upper bound, the parameter ub is ignored. 
+# If the column is of fixed type, only the parameter lb is used while the parameter ub is ignored.
 
   class RowColArray
     include Enumerable
@@ -248,11 +259,24 @@ module Rglpk
       Glpk_wrapper.glp_get_row_name(@p.lp, @i)
     end
         
-    def set_bounds(type, lb, ub)
-      raise ArgumentError unless TypeConstants.include?(type)
-      lb = 0.0 if lb.nil?
-      ub = 0.0 if ub.nil?
-      Glpk_wrapper.glp_set_row_bnds(@p.lp, @i, type, lb.to_f, ub.to_f)
+    def fr
+      Glpk_wrapper.glp_set_row_bnds(@p.lp, @i, GLP_FR, 0.0, 0.0)
+    end
+    
+    def fx(v)
+      Glpk_wrapper.glp_set_row_bnds(@p.lp, @i, GLP_FX, v, v)
+    end
+    
+    def lo(l)
+      Glpk_wrapper.glp_set_row_bnds(@p.lp, @i, GLP_LO, l, l)
+    end
+    
+    def up(u)
+      Glpk_wrapper.glp_set_row_bnds(@p.lp, @i, GLP_UP, u, u)
+    end
+    
+    def db(l, u)
+      Glpk_wrapper.glp_set_row_bnds(@p.lp, @i, GLP_DB, l, u)
     end
     
     def bounds
@@ -333,11 +357,24 @@ module Rglpk
       Glpk_wrapper.glp_get_col_kind(@p.lp, @j)
     end
     
-    def set_bounds(type, lb, ub)
-      raise ArgumentError unless TypeConstants.include?(type)
-      lb = 0.0 if lb.nil?
-      ub = 0.0 if ub.nil?
-      Glpk_wrapper.glp_set_col_bnds(@p.lp, @j, type, lb, ub)
+    def fr
+      Glpk_wrapper.glp_set_col_bnds(@p.lp, @j, GLP_FR, 0.0, 0.0)
+    end
+    
+    def fx(v)
+      Glpk_wrapper.glp_set_col_bnds(@p.lp, @j, GLP_FX, v, v)
+    end
+    
+    def lo(l)
+      Glpk_wrapper.glp_set_col_bnds(@p.lp, @j, GLP_LO, l, l)
+    end
+    
+    def up(u)
+      Glpk_wrapper.glp_set_col_bnds(@p.lp, @j, GLP_UP, u, u)
+    end
+    
+    def db(l, u)
+      Glpk_wrapper.glp_set_col_bnds(@p.lp, @j, GLP_DB, l, u)
     end
     
     def bounds
