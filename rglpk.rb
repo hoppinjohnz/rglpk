@@ -5,18 +5,6 @@ module Rglpk
     v = Glpk_wrapper.const_get(c)
     self.const_set(c, v) if v.kind_of? Numeric
   end
-  TypeConstants = [GLP_FR, GLP_LO, GLP_UP, GLP_DB, GLP_FX]
-# The parameters type, lb, and ub specify the type, lower bound, and upper bound, respectively, as follows:
-#           Type       Bounds          Comment
-#           GLP_FR   - < x < +         Free (unbounded) variable
-#           GLP_LO     lb  x < +       Variable with lower bound
-#           GLP_UP   - < x  ub         Variable with upper bound
-#           GLP_DB     lb  x  ub       Double-bounded variable
-#           GLP_FX     lb = x = ub     Fixed variable
-# where x is the variable associated with a column, lb and ub are the last two parameters to call glpk.
-# If the column has no lower bound, the parameter lb is ignored. 
-# If the column has no upper bound, the parameter ub is ignored. 
-# If the column is of fixed type, only the parameter lb is used while the parameter ub is ignored.
 
   class RowColArray
     include Enumerable
@@ -41,7 +29,7 @@ module Rglpk
         raise ArgumentError, "no row with name #{i.inspect}" if idx == 0
         @array[idx - 1]
       else
-       @array[i]
+        @array[i]
       end
     end
     
@@ -235,12 +223,9 @@ module Rglpk
       Glpk_wrapper.glp_mip_status(@lp)
     end
     
-    
     def write_lp(filename)
       Glpk_wrapper.glp_write_lp(@lp, nil, filename)
     end
-    
-    
   end
         
   class Row
@@ -259,6 +244,17 @@ module Rglpk
       Glpk_wrapper.glp_get_row_name(@p.lp, @i)
     end
         
+# The parameters type, lb, and ub specify the type, lower bound, and upper bound, respectively, as follows:
+#           Type       Bounds          Comment
+#           GLP_FR   - < x < +         Free (unbounded) variable
+#           GLP_LO     lb  x < +       Variable with lower bound
+#           GLP_UP   - < x  ub         Variable with upper bound
+#           GLP_DB     lb  x  ub       Double-bounded variable
+#           GLP_FX     lb = x = ub     Fixed variable
+# where x is the variable associated with a column, lb and ub are the last two parameters to call glpk.
+# If the column has no lower bound, the parameter lb is ignored. 
+# If the column has no upper bound, the parameter ub is ignored. 
+# If the column is of fixed type, only the parameter lb is used while the parameter ub is ignored.
     def fr
       Glpk_wrapper.glp_set_row_bnds(@p.lp, @i, GLP_FR, 0.0, 0.0)
     end
@@ -357,6 +353,17 @@ module Rglpk
       Glpk_wrapper.glp_get_col_kind(@p.lp, @j)
     end
     
+# The parameters type, lb, and ub specify the type, lower bound, and upper bound, respectively, as follows:
+#           Type       Bounds          Comment
+#           GLP_FR   - < x < +         Free (unbounded) variable
+#           GLP_LO     lb  x < +       Variable with lower bound
+#           GLP_UP   - < x  ub         Variable with upper bound
+#           GLP_DB     lb  x  ub       Double-bounded variable
+#           GLP_FX     lb = x = ub     Fixed variable
+# where x is the variable associated with a column, lb and ub are the last two parameters to call glpk.
+# If the column has no lower bound, the parameter lb is ignored. 
+# If the column has no upper bound, the parameter ub is ignored. 
+# If the column is of fixed type, only the parameter lb is used while the parameter ub is ignored.
     def fr
       Glpk_wrapper.glp_set_col_bnds(@p.lp, @j, GLP_FR, 0.0, 0.0)
     end
