@@ -46,7 +46,7 @@ Find where the original rglpk.rb is install, save it to a back up copy, replace 
 
 The original example:
 
-        require 'rglpk'
+	require 'rglpk'
         
 	# The same Brief Example as found in section 1.3 of 
 	# glpk-4.44/doc/glpk.pdf.
