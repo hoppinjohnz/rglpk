@@ -5,6 +5,7 @@ module Rglpk
     v = Glpk_wrapper.const_get(c)
     self.const_set(c, v) if v.kind_of? Numeric
   end
+  TypeConstants = [GLP_FR, GLP_LO, GLP_UP, GLP_DB, GLP_FX]
 
   class RowColArray
     include Enumerable
@@ -244,6 +245,13 @@ module Rglpk
       Glpk_wrapper.glp_get_row_name(@p.lp, @i)
     end
         
+    def set_bounds(type, lb, ub)
+      raise ArgumentError unless TypeConstants.include?(type)
+      lb = 0.0 if lb.nil?
+      ub = 0.0 if ub.nil?
+      Glpk_wrapper.glp_set_row_bnds(@p.lp, @i, type, lb.to_f, ub.to_f)
+    end
+
 # The parameters type, lb, and ub specify the type, lower bound, and upper bound, respectively, as follows:
 #           Type       Bounds          Comment
 #           GLP_FR   - < x < +         Free (unbounded) variable
@@ -353,6 +361,13 @@ module Rglpk
       Glpk_wrapper.glp_get_col_kind(@p.lp, @j)
     end
     
+    def set_bounds(type, lb, ub)
+      raise ArgumentError unless TypeConstants.include?(type)
+      lb = 0.0 if lb.nil?
+      ub = 0.0 if ub.nil?
+      Glpk_wrapper.glp_set_col_bnds(@p.lp, @j, type, lb, ub)
+    end
+
 # The parameters type, lb, and ub specify the type, lower bound, and upper bound, respectively, as follows:
 #           Type       Bounds          Comment
 #           GLP_FR   - < x < +         Free (unbounded) variable
