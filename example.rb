@@ -12,7 +12,7 @@ p = Rglpk::Problem.new
 p.name = "sample"
 p.obj.dir = Rglpk::GLP_MAX
 
-rows = p.add_rows(6)
+rows = p.add_rows(3)
 rows[0].name = "p"
 rows[1].name = "q"
 rows[2].name = "r"
