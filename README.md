@@ -26,18 +26,18 @@ you can write using this modified rglpk.rb:
 
         rows = p.add_rows(3)
         rows[0].name = "p"
-        rows[1].name = "q"
-        rows[2].name = "r"
         rows[0].up(100.0)
+        rows[1].name = "q"
         rows[1].up(600.0)
+        rows[2].name = "r"
         rows[2].up(300.0)
         
         cols = p.add_cols(3)
         cols[0].name = "x1"
-        cols[1].name = "x2"
-        cols[2].name = "x3"
         cols[0].lo(0.0)
+        cols[1].name = "x2"
         cols[1].lo(0.0)
+        cols[2].name = "x3"
         cols[2].lo(0.0)
 
 Find where the original rglpk.rb is install, save it to a back up copy, replace it with this modified one.  That's it.
@@ -118,20 +118,18 @@ The same example using the modified rglpk.rb:
         
         rows = p.add_rows(3)
         rows[0].name = "p"
-        rows[1].name = "q"
-        rows[2].name = "r"
-        
         rows[0].up(100.0)
+        rows[1].name = "q"
         rows[1].up(600.0)
+        rows[2].name = "r"
         rows[2].up(300.0)
         
         cols = p.add_cols(3)
         cols[0].name = "x1"
-        cols[1].name = "x2"
-        cols[2].name = "x3"
-        
         cols[0].lo(0.0)
+        cols[1].name = "x2"
         cols[1].lo(0.0)
+        cols[2].name = "x3"
         cols[2].lo(0.0)
         
         p.obj.coefs = [10, 6, 4]
