@@ -157,4 +157,4 @@ The same example using the modified rglpk.rb:
         printf("z = %g; x1 = %g; x2 = %g; x3 = %g\n", z, x1, x2, x3)
         #=> z = 733.333; x1 = 33.3333; x2 = 66.6667; x3 = 0
         
-
+Please send comments and suggestions to John at johnzhu00@gmail.com.
