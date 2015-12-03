@@ -2,9 +2,17 @@
 
 Please see [wtaysom/rglpk](https://github.com/wtaysom/rglpk/blob/master/README.md) for introduction and installation.
 
-This repository provides two more convenient methods for writing right hand side bounds and variable upper bounds as illustrated below.
+The modification provided by this repository is intended to simplify these calls 
 
-Instead of writing:
+	rows[0].set_bounds(Rglpk::GLP_UP, 0, 100)       to	rows[0].up(100.0)   
+	rows[1].set_bounds(Rglpk::GLP_LO, 0.0, 0.0)     to	rows[1].lo(0.0)     
+	cols[0].set_bounds(Rglpk::GLP_DB, 0.0, 1.0)     to	cols[0].db(0.0, 1.0)
+	cols[1].set_bounds(Rglpk::GLP_FR, nil, nil)     to	cols[1].fr          
+	cols[2].set_bounds(Rglpk::GLP_FX, 1, 1)         to	cols[2].fx(1.0)     
+
+So, you have the option to use either one of them.
+
+For example, instead of writing,
 
         rows = p.add_rows(3)
         rows[0].name = "p"
@@ -22,7 +30,7 @@ Instead of writing:
         cols[2].name = "x3"
         cols[2].set_bounds(Rglpk::GLP_LO, 0.0, 0.0)
 
-you can write using this modified rglpk.rb:
+you can write using this modified rglpk.rb,
 
         rows = p.add_rows(3)
         rows[0].name = "p"
@@ -46,7 +54,7 @@ Find where the original rglpk.rb is install, save it to a back up copy, replace 
 
 The original example:
 
-	require 'rglpk'
+        require 'rglpk'
         
 	# The same Brief Example as found in section 1.3 of 
 	# glpk-4.44/doc/glpk.pdf.
@@ -149,3 +157,4 @@ The same example using the modified rglpk.rb:
         printf("z = %g; x1 = %g; x2 = %g; x3 = %g\n", z, x1, x2, x3)
         #=> z = 733.333; x1 = 33.3333; x2 = 66.6667; x3 = 0
         
+
